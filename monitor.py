@@ -3,7 +3,7 @@
 # based on code by henryk ploetz
 # https://hackaday.io/project/5301-reverse-engineering-a-low-cost-usb-co-monitor/log/17909-all-your-base-are-belong-to-us
 
-import os, sys, fcntl, time, librato, yaml, socket
+import os, sys, fcntl, time, statsd, yaml, socket
 
 import requests
 
@@ -55,9 +55,9 @@ def notifySlack(co2, config, upper_threshold):
     icon = config["icon"] if "icon" in config else ":robot_face:"
 
     if (co2 > upper_threshold):
-        message = "Dude, you should open a window. We have *%dppm* in here." % co2
+        message = "Dude, you should open a window. We have CO2 *%dppm* in here." % co2
     else:
-        message = "Ok, you can close the window now. We're down to *%dppm*." % co2
+        message = "Ok, you can close the window now. We're down to CO2 *%dppm*." % co2
     try:
         payload = {
             'channel': channel,
@@ -71,8 +71,8 @@ def notifySlack(co2, config, upper_threshold):
 
 def publish(client, prefix, co2, tmp):
     try:
-        client.submit(prefix + ".co2", co2)
-        client.submit(prefix + ".tmp", tmp)
+        client.gauge(prefix + ".co2", co2)
+        client.gauge(prefix + ".tmp", tmp)
     except:
         print "Unexpected error:", sys.exc_info()[0]
 

@@ -1,10 +1,9 @@
-# what & why?
+# why?
 
-Measuring Co2 and Temperature at [Woogas office](http://www.wooga.com/jobs/office-tour/).
+Measuring Co2 and Temperature in closed environments (office, home).
 
 People are sensitive to high levels of Co2 or uncomfortably hot work environments, so we want to
-have some numbers. It turns out that our [office](https://metrics.librato.com/share/dashboards/l7pd2aia) does
-vary in temperature and Co2 across the floors.
+have some numbers.
 
 # requirements
 
@@ -29,7 +28,6 @@ vary in temperature and Co2 across the floors.
 1) install python libs
 ```
 sudo apt-get install python-pip python-dev libyaml-dev
-sudo pip install librato-metrics
 sudo pip install pyyaml
 sudo pip install requests
 ```

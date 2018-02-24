@@ -118,7 +118,7 @@ if __name__ == "__main__":
     except IndexError:
         config = config()
 
-    client = client(config)
+    client = statsd.StatsClient('localhost', 8125)
 
     while True:
         data = list(ord(e) for e in fp.read(8))

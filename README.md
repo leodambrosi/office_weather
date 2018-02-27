@@ -2,8 +2,7 @@
 
 Measuring Co2 and Temperature in closed environments (office, home).
 
-People are sensitive to high levels of Co2 or uncomfortably hot work environments, so we want to
-have some numbers.
+People are sensitive to high levels of Co2 in closed envorinments, so we want to have some numbers to monitor it.
 
 # requirements
 
@@ -11,15 +10,15 @@ have some numbers.
 
 1) [TFA-Dostmann AirControl Mini CO2 Messgerät](http://www.amazon.de/dp/B00TH3OW4Q) -- 80 euro
 
-2) [Raspberry PI 2 Model B](http://www.amazon.de/dp/B00T2U7R7I) -- 40 euro
+2) [Raspberry PI 3]() -- 40 euro
 
 3) case, 5v power supply, microSD card
 
 ## software
 
-1) [Librato](https://www.librato.com) account for posting the data to.
+2) Install on your Raspberry PI 3 [InfluxDB & Grafana](https://www.circuits.dk/install-grafana-influxdb-raspberry/).
 
-2) download [Raspbian](https://www.raspberrypi.org/downloads/) and [install it on the microSD](https://www.raspberrypi.org/documentation/installation/installing-images/README.md). We used [this version](https://github.com/wooga/office_weather/blob/0da94b4255494ecbcf993ec592988503c6c72629/.gitignore#L2) of raspbian.
+1) download [Raspbian](https://www.raspberrypi.org/downloads/) and [install it on the microSD](https://www.raspberrypi.org/documentation/installation/installing-images/README.md). We used [this version](https://github.com/wooga/office_weather/blob/0da94b4255494ecbcf993ec592988503c6c72629/.gitignore#L2) of raspbian.
 
 # installation on the raspberry
 
@@ -39,7 +38,10 @@ token: abc123...
 prefix: office.floor3
 ```
 
-We use [librato](https://www.librato.com) to graph our weather, so you'll need to modify that if you using another service.
+2a) install Docker 
+```
+curl -sSL https://get.docker.com | sh
+```
 
 2b) (optional) You can configure this bot to automatically post to a Slack channel.
 Just add an "Incoming Webhook" to your Slack team's integrations and add a `slack` hash to the config file.

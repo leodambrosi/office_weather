@@ -3,9 +3,9 @@
 # based on code by henryk ploetz
 # https://hackaday.io/project/5301-reverse-engineering-a-low-cost-usb-co-monitor/log/17909-all-your-base-are-belong-to-us
 
+from influxdb import InfluxDBClient
 import os, sys, fcntl, time, statsd, yaml, socket
-
-import requests
+import requests, json
 
 def callback_function(error, result):
     if error:
@@ -71,8 +71,10 @@ def notifySlack(co2, config, upper_threshold):
 
 def publish(client, prefix, co2, tmp):
     try:
-        client.gauge(prefix + ".co2", co2)
-        client.gauge(prefix + ".tmp", tmp)
+        #client.gauge(prefix + ".co2", co2)
+        #client.gauge(prefix + ".tmp", tmp)
+        client.write_points([{'measurement': "co2", "fields":{"value": co2}}])
+        client.write_points([{'measurement': "temp", "fields":{"value": tmp}}])
     except:
         print "Unexpected error:", sys.exc_info()[0]
 
@@ -118,9 +120,11 @@ if __name__ == "__main__":
     except IndexError:
         config = config()
 
-    client = statsd.StatsClient('localhost', 8125)
+    #client = statsd.StatsClient('localhost', 8125)
+    client = InfluxDBClient(host='localhost',port=8086,database='cotwo',username='admin',password='admin')
 
     while True:
+        time.sleep(10)
         data = list(ord(e) for e in fp.read(8))
         decrypted = decrypt(key, data)
         if decrypted[4] != 0x0d or (sum(decrypted[:3]) & 0xff) != decrypted[3]:

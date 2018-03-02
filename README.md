@@ -31,16 +31,9 @@ sudo pip install pyyaml
 sudo pip install requests
 ```
 
-2) create `config.yaml` with [libratro](https://www.librato.com) credentials:
+2) create `config.yaml`:
 ```
-user: your.librato.user.name@some.email.com
-token: abc123...
 prefix: office.floor3
-```
-
-2a) install Docker 
-```
-curl -sSL https://get.docker.com | sh
 ```
 
 2b) (optional) You can configure this bot to automatically post to a Slack channel.
@@ -91,33 +84,15 @@ You can optionally override this by passing a custom configuration file path as 
 
 # ansible deployment on the raspberry
 
-For this deployment process you need a machine with a working version of ansible.
-
-0) Install raspbian on all deployment targets aka raspberries. Collect their IP addresses either manually using a screen and a keyboard or through the log of your router.
-
 1) In the project folder create the `config.yaml` file as described in the chapter for the manual installation process. Replace the line containing the `prefix` assignment by:
 
 `prefix: {{ name }}`
-
-2) In the project folder create a file called `inventory` and insert the previously collected IP addresses with the respective future librato metric names of the raspberries, e.g.:
-
-```
-    192.168.2.12 name=office.floor4.kitchen
-    192.168.2.13 name=office.floor4.entrance
-```
-
-3) After all preparations are done, the real deployment step may be started by executing:
-
-`ansible-playbook -k -i inventory office_weather_ansible.yaml --extra-vars "new_password=your_new_password"`
-
-Right after starting the command ansible will ask you for the SSH password to access the raspberries.
-
-*The ansible script expects that you provide a new password, which will be set on all raspberries.*
 
 
 # credits
 
 based on code by [henryk ploetz](https://hackaday.io/project/5301-reverse-engineering-a-low-cost-usb-co-monitor/log/17909-all-your-base-are-belong-to-us)
+based on code by [Wooga](https://github.com/wooga/office_weather)
 
 # license
 
